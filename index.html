@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Plugin</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
+	<style>
+	#map {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	}
+	html,body{margin: 0; padding: 0}
+	</style>
+</head>
+<body>
+	<div id="map"</div>
+	<script>
+		var map = L.map('map').setView([40.7127, -74.0059], 16);
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+		}).addTo(map);
+		var geocoder = L.control.geocoder('search-PZzYhZK').addTo(map);
+		var data
+		$.getJSON('https://clzirkel.cartodb.com/api/v2/sql?q=SELECT * FROM new_york_city_art_galleries&format=GeoJSON') 
+		.done (function (data) {
+			L.geoJSON(data, {
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker (latlng);
+				},
+			})
+		})
+	</script>
+</body>
+</html>
